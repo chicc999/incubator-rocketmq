@@ -93,6 +93,10 @@ public class BrokerStartup {
             }
 
             final BrokerConfig brokerConfig = new BrokerConfig();
+
+            brokerConfig.setRocketmqHome("/Users/cy/workspace/github/incubator-rocketmq/distribution");
+            brokerConfig.setNamesrvAddr("localhost:9876");
+
             final NettyServerConfig nettyServerConfig = new NettyServerConfig();
             final NettyClientConfig nettyClientConfig = new NettyClientConfig();
             nettyServerConfig.setListenPort(10911);

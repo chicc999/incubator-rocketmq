@@ -48,6 +48,10 @@ public class NamesrvStartup {
     }
 
     public static NamesrvController main0(String[] args) {
+
+        final NamesrvConfig namesrvConfig = new NamesrvConfig();
+        namesrvConfig.setRocketmqHome("/Users/cy/workspace/github/incubator-rocketmq/distribution");
+
         System.setProperty(RemotingCommand.REMOTING_VERSION_KEY, Integer.toString(MQVersion.CURRENT_VERSION));
 
         if (null == System.getProperty(NettySystemConfig.COM_ROCKETMQ_REMOTING_SOCKET_SNDBUF_SIZE)) {
@@ -68,7 +72,7 @@ public class NamesrvStartup {
                 return null;
             }
 
-            final NamesrvConfig namesrvConfig = new NamesrvConfig();
+
             final NettyServerConfig nettyServerConfig = new NettyServerConfig();
             nettyServerConfig.setListenPort(9876);
             if (commandLine.hasOption('c')) {
@@ -81,6 +85,7 @@ public class NamesrvStartup {
                     MixAll.properties2Object(properties, nettyServerConfig);
 
                     namesrvConfig.setConfigStorePath(file);
+
 
                     System.out.printf("load config properties file OK, " + file + "%n");
                     in.close();
