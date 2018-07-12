@@ -48,12 +48,16 @@ public class BrokerStartup {
     public static String configFile = null;
     public static Logger log;
 
+    private static final String namesrvAddr = "127.0.0.1:9876";
+    private static final String brokerClusterName = "RMQ1";
+
     public static void main(String[] args) {
         start(createBrokerController(args));
     }
 
     public static BrokerController start(BrokerController controller) {
         try {
+            controller.getBrokerConfig().setBrokerClusterName("RMQ1");
             controller.start();
             String tip = "The broker[" + controller.getBrokerConfig().getBrokerName() + ", "
                 + controller.getBrokerAddr() + "] boot success. serializeType=" + RemotingCommand.getSerializeTypeConfigInThisServer();
@@ -73,8 +77,8 @@ public class BrokerStartup {
     }
 
     public static BrokerController createBrokerController(String[] args) {
+        System.setProperty(MixAll.ROCKETMQ_HOME_PROPERTY,"/Users/cy/workspace/github/incubator-rocketmq/distribution");
         System.setProperty(RemotingCommand.REMOTING_VERSION_KEY, Integer.toString(MQVersion.CURRENT_VERSION));
-
         if (null == System.getProperty(NettySystemConfig.COM_ROCKETMQ_REMOTING_SOCKET_SNDBUF_SIZE)) {
             NettySystemConfig.socketSndbufSize = 131072;
         }
@@ -130,6 +134,8 @@ public class BrokerStartup {
                 System.exit(-2);
             }
 
+            brokerConfig.setNamesrvAddr(namesrvAddr);
+            brokerConfig.setBrokerClusterName(brokerClusterName);
             String namesrvAddr = brokerConfig.getNamesrvAddr();
             if (null != namesrvAddr) {
                 try {
